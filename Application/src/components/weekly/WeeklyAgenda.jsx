@@ -389,7 +389,7 @@ export default function Weekly({ setScreen }) {
             </Dialog>
 
             {/* Diálogo History */}
-            <Dialog open={openHistory} onClose={fecharHistory} maxWidth="sm" fullWidth>
+            <Dialog open={openHistory} onClose={fecharHistory} maxWidth="md" fullWidth>
                 <DialogTitle>Histórico de Tarefas</DialogTitle>
                 <DialogContent>
                     {tarefas.length === 0 ? (
@@ -424,11 +424,106 @@ export default function Weekly({ setScreen }) {
                                     </svg>
                                 </div>
 
-                                <div style={{ flex: 3 }}>{tarefa.texto}</div>
+                                <input
+                                    type="text"
+                                    value={tarefa.texto}
+                                    onChange={(e) => {
+                                        const novoTexto = e.target.value;
+                                        setTarefas((prev) =>
+                                            prev.map((t) =>
+                                                t.id === tarefa.id ? { ...t, texto: novoTexto } : t
+                                            )
+                                        );
+                                    }}
+                                    style={{ flex: 3 }}
+                                />
 
-                                <div style={{ fontSize: '0.9rem', color: '#555' }}>
-                                    {tarefa.date.day}/{tarefa.date.month}/{tarefa.date.year}
-                                </div>
+                                {/* Dia */}
+                                <input
+                                    type="number"
+                                    min={1}
+                                    max={31}
+                                    value={tarefa.date.day}
+                                    onChange={(e) => {
+                                        const novoDia = Number(e.target.value);
+                                        setTarefas((prev) =>
+                                            prev.map((t) =>
+                                                t.id === tarefa.id
+                                                    ? { ...t, date: { ...t.date, day: novoDia } }
+                                                    : t
+                                            )
+                                        );
+                                    }}
+                                    style={{ width: 50 }}
+                                />
+
+                                {/* Mês */}
+                                <select
+                                    value={tarefa.date.month}
+                                    onChange={(e) => {
+                                        const novoMes = Number(e.target.value);
+                                        setTarefas((prev) =>
+                                            prev.map((t) =>
+                                                t.id === tarefa.id
+                                                    ? { ...t, date: { ...t.date, month: novoMes } }
+                                                    : t
+                                            )
+                                        );
+                                    }}
+                                >
+                                    {months.map((m, i) => (
+                                        <option key={i} value={i + 1}>
+                                            {m}
+                                        </option>
+                                    ))}
+                                </select>
+
+                                {/* Ano */}
+                                <input
+                                    type="number"
+                                    value={tarefa.date.year}
+                                    onChange={(e) => {
+                                        const novoAno = Number(e.target.value);
+                                        setTarefas((prev) =>
+                                            prev.map((t) =>
+                                                t.id === tarefa.id
+                                                    ? { ...t, date: { ...t.date, year: novoAno } }
+                                                    : t
+                                            )
+                                        );
+                                    }}
+                                    style={{ width: 70 }}
+                                />
+
+                                {/* Horário de início */}
+                                <input
+                                    type="time"
+                                    value={tarefa.startTime}
+                                    onChange={(e) => {
+                                        const novoStartTime = e.target.value;
+                                        setTarefas((prev) =>
+                                            prev.map((t) =>
+                                                t.id === tarefa.id ? { ...t, startTime: novoStartTime } : t
+                                            )
+                                        );
+                                    }}
+                                    style={{ width: 100 }}
+                                />
+
+                                {/* Horário de fim */}
+                                <input
+                                    type="time"
+                                    value={tarefa.endTime}
+                                    onChange={(e) => {
+                                        const novoEndTime = e.target.value;
+                                        setTarefas((prev) =>
+                                            prev.map((t) =>
+                                                t.id === tarefa.id ? { ...t, endTime: novoEndTime } : t
+                                            )
+                                        );
+                                    }}
+                                    style={{ width: 100 }}
+                                />
                             </div>
                         ))
                     )}
