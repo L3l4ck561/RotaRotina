@@ -394,10 +394,22 @@ export default function Weekly({ setScreen }) {
                 <DialogContent>
                     {tarefas.length === 0 ? (
                         <p>Nenhuma tarefa cadastrada.</p>
-                    ) : (
-                        tarefas.filter(item =>
-                            item.startTime && item.endTime
-                        ).map((tarefa) => (
+                    ) : ([...tarefas]
+                        .sort((a, b) => {
+                            const aTemHorario = a.startTime && a.endTime;
+                            const bTemHorario = b.startTime && b.endTime;
+
+                            // Primeiro: quem tem horário vem antes
+                            if (aTemHorario && !bTemHorario) return -1;
+                            if (!aTemHorario && bTemHorario) return 1;
+
+                            // Se ambos têm horário, ordena por horário inicial
+                            if (aTemHorario && bTemHorario) {
+                                return a.startTime.localeCompare(b.startTime);
+                            }
+
+                            return 0;
+                        }).map((tarefa) => (
                             <div
                                 key={tarefa.id}
                                 style={{
