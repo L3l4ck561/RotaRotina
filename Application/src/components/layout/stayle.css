@@ -34,3 +34,137 @@
 label:active {
     transform: scale(0.9);
 }
+
+/* =========================================== */
+
+.cc-container {
+  --cc-unchecked-color: hsl(0, 0%, 10%);
+  --cc-checked-color: hsl(216, 100%, 60%);
+  --cc-font-color: white;
+  --cc-checked-font-color: var(--cc-font-color);
+  --cc-icon-size: 1.5em;
+  --cc-anim-time: 0.2s;
+  --cc-anim-scale: 0.1;
+  --cc-base-radius: 0.8em;
+
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+  fill: var(--cc-font-color);
+  color: var(--cc-font-color);
+}
+
+/* Hide default checkbox */
+.cc-container input {
+  display: none;
+}
+
+/* Base custom checkbox */
+.cc-checkmark {
+  background: var(--cc-unchecked-color);
+  border-radius: var(--cc-base-radius);
+  display: flex;
+  padding: 0.5em;
+}
+
+.cc-icon {
+  width: var(--cc-icon-size);
+  height: auto;
+  filter: drop-shadow(0px 2px var(--cc-base-radius) rgba(0, 0, 0, 0.25));
+}
+
+.cc-name {
+  margin: 0 0.25em;
+}
+
+.cc-yes {
+  width: 0;
+}
+
+.cc-name.cc-yes {
+  display: none;
+}
+
+/* Hover */
+/* .cc-container:hover .cc-checkmark,
+.cc-container:hover .cc-icon,
+.cc-container:hover .cc-name {
+  transform: scale(calc(1 + var(--cc-anim-scale)));
+} */
+
+.cc-container:active .cc-checkmark,
+.cc-container:active .cc-icon,
+.cc-container:active .cc-name {
+  transform: scale(calc(1 - var(--cc-anim-scale) / 2));
+  border-radius: calc(var(--cc-base-radius) * 2);
+}
+
+.cc-checkmark::before {
+  content: "";
+  opacity: 0.5;
+  transform: scale(1);
+  border-radius: var(--cc-base-radius);
+  position: absolute;
+  box-sizing: border-box;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.cc-checkmark:hover:before {
+  background-color: hsla(0, 0%, 50%, 0.2);
+}
+
+.cc-container input:checked + .cc-checkmark:before {
+  animation: cc-boon var(--cc-anim-time) ease;
+  animation-delay: calc(var(--cc-anim-time) / 2);
+}
+
+/* Checked state */
+.cc-container input:checked + .cc-checkmark {
+  --cc-unchecked-color: var(--cc-checked-color);
+  fill: var(--cc-checked-font-color);
+  color: var(--cc-checked-font-color);
+}
+
+.cc-container input:checked ~ .cc-checkmark .cc-no {
+  width: 0;
+}
+
+.cc-container input:checked ~ .cc-checkmark .cc-name.cc-no {
+  display: none;
+}
+
+.cc-container input:checked ~ .cc-checkmark .cc-yes {
+  width: var(--cc-icon-size);
+}
+
+.cc-container input:checked ~ .cc-checkmark .cc-name.cc-yes {
+  width: auto;
+  display: unset;
+}
+
+/* Animation */
+.cc-container,
+.cc-checkmark,
+.cc-checkmark:after,
+.cc-icon,
+.cc-checkmark .cc-name {
+  transition: all var(--cc-anim-time);
+}
+
+@keyframes cc-boon {
+  80% {
+    transform: scale(1.4);
+  }
+  99% {
+    transform: scale(1.7);
+  }
+  to {
+    transform: scale(0);
+  }
+}

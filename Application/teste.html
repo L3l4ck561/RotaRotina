@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* From Uiverse.io by milegelu */ 
+.container {
+  --UnChacked-color: hsl(0, 0%, 10%);
+  --chacked-color: hsl(216, 100%, 60%);
+  --font-color: white;
+  --chacked-font-color: var(--font-color);
+  --icon-size: 1.5em;
+  --anim-time: 0.2s;
+  --anim-scale: 0.1;
+  --base-radius: 0.8em;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+  fill: var(--font-color);
+  color: var(--font-color);
+}
+
+/* Hide the default checkbox */
+.container input {
+  display: none;
+}
+
+/* Base custom checkbox */
+.checkmark {
+  background: var(--UnChacked-color);
+  border-radius: var(--base-radius);
+
+  display: flex;
+  padding: 0.5em;
+}
+.icon {
+  width: var(--icon-size);
+  height: auto;
+  filter: drop-shadow(0px 2px var(--base-radius) rgba(0, 0, 0, 0.25));
+}
+.name {
+  margin: 0 0.25em;
+}
+.Yes {
+  width: 0;
+}
+.name.Yes {
+  display: none;
+}
+
+/* action custom checkbox */
+.container:hover .checkmark,
+.container:hover .icon,
+.container:hover .name {
+  transform: scale(calc(1 + var(--anim-scale)));
+}
+
+.container:active .checkmark,
+.container:active .icon,
+.container:active .name {
+  transform: scale(calc(1 - var(--anim-scale) / 2));
+  border-radius: calc(var(--base-radius) * 2);
+}
+.checkmark::before {
+  content: "";
+  opacity: 0.5;
+  transform: scale(1);
+  border-radius: var(--base-radius);
+  position: absolute;
+  box-sizing: border-box;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+.checkmark:hover:before {
+  background-color: hsla(0, 0%, 50%, 0.2);
+}
+.container input:checked + .checkmark:before {
+  animation: boon calc(var(--anim-time)) ease;
+  animation-delay: calc(var(--anim-time) / 2);
+}
+
+/* When the checkbox is checked*/
+.container input:checked + .checkmark {
+  --UnChacked-color: var(--chacked-color);
+  fill: var(--chacked-font-color);
+  color: var(--chacked-font-color);
+}
+
+.container input:checked ~ .checkmark .No {
+  width: 0;
+}
+.container input:checked ~ .checkmark .name.No {
+  display: none;
+}
+
+.container input:checked ~ .checkmark .Yes {
+  width: var(--icon-size);
+}
+.container input:checked ~ .checkmark .name.Yes {
+  width: auto;
+  display: unset;
+}
+
+/*Animation*/
+.container,
+.checkmark,
+.checkmark:after,
+.icon,
+.checkmark .name {
+  transition: all var(--anim-time);
+}
+
+/*Unuse*/
+@keyframes icon-rot {
+  50% {
+    transform: rotateZ(180deg) scale(calc(1 - var(--anim-scale)));
+    border-radius: 1em;
+  }
+  to {
+    transform: rotate(360deg);
+    border-radius: var(--base-radius);
+  }
+}
+/*Unuse*/
+@keyframes boo {
+  80% {
+    transform: scale(1.4);
+  }
+  99% {
+    transform: scale(1.7);
+    border: 2px solid var(--UnChacked-color);
+  }
+  to {
+    transform: scale(0);
+  }
+}
+
+    </style>
+</head>
+<body>
+    <!-- From Uiverse.io by milegelu --> 
+<label class="container">
+  <input type="checkbox" />
+  <div class="checkmark">
+    <svg class="icon No" viewBox="-1 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#000000" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>calendar</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-311.000000, -361.000000)" fill="#ffffff"> <path d="M325,379 L327,379 L327,377 L325,377 L325,379 Z M325,387 L327,387 L327,385 L325,385 L325,387 Z M333,379 L335,379 L335,377 L333,377 L333,379 Z M333,387 L335,387 L335,385 L333,385 L333,387 Z M317,387 L319,387 L319,385 L317,385 L317,387 Z M339,369 L313,369 L313,367 C313,365.896 313.896,365 315,365 L319,365 L319,366 C319,366.553 319.447,367 320,367 C320.553,367 321,366.553 321,366 L321,365 L331,365 L331,366 C331,366.553 331.447,367 332,367 C332.553,367 333,366.553 333,366 L333,365 L337,365 C338.104,365 339,365.896 339,367 L339,369 L339,369 Z M337,379 C337,380.104 336.104,381 335,381 L333,381 C331.896,381 331,380.104 331,379 L331,377 C331,375.896 331.896,375 333,375 L335,375 C336.104,375 337,375.896 337,377 L337,379 L337,379 Z M337,387 C337,388.104 336.104,389 335,389 L333,389 C331.896,389 331,388.104 331,387 L331,385 C331,383.896 331.896,383 333,383 L335,383 C336.104,383 337,383.896 337,385 L337,387 L337,387 Z M329,379 C329,380.104 328.104,381 327,381 L325,381 C323.896,381 323,380.104 323,379 L323,377 C323,375.896 323.896,375 325,375 L327,375 C328.104,375 329,375.896 329,377 L329,379 L329,379 Z M329,387 C329,388.104 328.104,389 327,389 L325,389 C323.896,389 323,388.104 323,387 L323,385 C323,383.896 323.896,383 325,383 L327,383 C328.104,383 329,383.896 329,385 L329,387 L329,387 Z M321,379 C321,380.104 320.104,381 319,381 L317,381 C315.896,381 315,380.104 315,379 L315,377 C315,375.896 315.896,375 317,375 L319,375 C320.104,375 321,375.896 321,377 L321,379 L321,379 Z M321,387 C321,388.104 320.104,389 319,389 L317,389 C315.896,389 315,388.104 315,387 L315,385 C315,383.896 315.896,383 317,383 L319,383 C320.104,383 321,383.896 321,385 L321,387 L321,387 Z M337,363 L333,363 L333,362 C333,361.448 332.553,361 332,361 C331.447,361 331,361.448 331,362 L331,363 L321,363 L321,362 C321,361.448 320.553,361 320,361 C319.447,361 319,361.448 319,362 L319,363 L315,363 C312.791,363 311,364.791 311,367 L311,389 C311,391.209 312.791,393 315,393 L337,393 C339.209,393 341,391.209 341,389 L341,367 C341,364.791 339.209,363 337,363 L337,363 Z M317,379 L319,379 L319,377 L317,377 L317,379 Z" id="calendar" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
+    <p class="No name">Calender</p>
+    <svg class="icon Yes" fill="#000000" height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M233.244,333.369h-73.956c-3.141,0-5.689,2.547-5.689,5.689v143.36c0,3.141,2.547,5.689,5.689,5.689h73.956 c3.141,0,5.689-2.547,5.689-5.689v-143.36C238.933,335.916,236.386,333.369,233.244,333.369z"></path> </g> </g> <g> <g> <path d="M233.244,179.769h-73.956c-3.141,0-5.689,2.547-5.689,5.689v108.089c0,3.141,2.547,5.689,5.689,5.689h73.956 c3.141,0,5.689-2.547,5.689-5.689V185.458C238.933,182.316,236.386,179.769,233.244,179.769z"></path> </g> </g> <g> <g> <path d="M352.711,333.369h-73.956c-3.141,0-5.689,2.547-5.689,5.689v143.36c0,3.141,2.547,5.689,5.689,5.689h73.956 c3.141,0,5.689-2.547,5.689-5.689v-143.36C358.4,335.916,355.853,333.369,352.711,333.369z"></path> </g> </g> <g> <g> <path d="M113.778,179.769H5.689c-3.141,0-5.689,2.547-5.689,5.689v108.089c0,3.141,2.547,5.689,5.689,5.689h108.089 c3.141,0,5.689-2.547,5.689-5.689V185.458C119.467,182.316,116.919,179.769,113.778,179.769z"></path> </g> </g> <g> <g> <path d="M472.175,54.613h-69.402V40.96c0-9.425-7.641-17.067-17.067-17.067S368.64,31.535,368.64,40.96v13.653H143.36V40.96 c0-9.425-7.641-17.067-17.067-17.067s-17.067,7.641-17.067,17.067v13.653H39.825C17.83,54.613,0,72.443,0,94.438v45.509 c0,3.141,2.547,5.689,5.689,5.689h500.622c3.141,0,5.689-2.547,5.689-5.689V94.438C512,72.443,494.17,54.613,472.175,54.613z"></path> </g> </g> <g> <g> <path d="M113.778,333.369H5.689c-3.141,0-5.689,2.547-5.689,5.689v109.236c0,21.988,17.826,39.813,39.813,39.813h73.965 c3.141,0,5.689-2.547,5.689-5.689v-143.36C119.467,335.916,116.919,333.369,113.778,333.369z"></path> </g> </g> <g> <g> <path d="M506.311,333.369H398.222c-3.141,0-5.689,2.547-5.689,5.689v143.36c0,3.141,2.548,5.689,5.689,5.689h73.965 c21.988,0,39.813-17.826,39.813-39.813V339.058C512,335.916,509.453,333.369,506.311,333.369z"></path> </g> </g> <g> <g> <path d="M352.711,179.769h-73.956c-3.141,0-5.689,2.547-5.689,5.689v108.089c0,3.141,2.547,5.689,5.689,5.689h73.956 c3.141,0,5.689-2.547,5.689-5.689V185.458C358.4,182.316,355.853,179.769,352.711,179.769z"></path> </g> </g> <g> <g> <path d="M506.311,179.769H398.222c-3.141,0-5.689,2.547-5.689,5.689v108.089c0,3.141,2.548,5.689,5.689,5.689h108.089 c3.141,0,5.689-2.547,5.689-5.689V185.458C512,182.316,509.453,179.769,506.311,179.769z"></path> </g> </g> </g></svg>
+    <p class="Yes name">Weekly</p>
+  </div>
+</label>
+
+</body>
+</html>
