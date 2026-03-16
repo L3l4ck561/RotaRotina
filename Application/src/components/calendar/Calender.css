@@ -43,7 +43,7 @@ body {
 
 .month-year {
     font-size: 1.7rem;
-
+    cursor: pointer;
     font-family: "Playwrite NZ Basic", cursive;
     font-optical-sizing: auto;
     font-weight: weight;
