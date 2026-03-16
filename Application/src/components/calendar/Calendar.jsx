@@ -230,7 +230,7 @@ export default function Calendar({ setScreen }) {
     <div className={`calendar`}>
       <header className="calendar-header">
         <button onClick={goToPreviousMonth}>◀</button>
-        <div className="month-year">
+        <div className="month-year" onClick={abrirSearch}>
           <span className='month-title'>{months[month]}</span> {year}
         </div>
         <button onClick={goToNextMonth}>▶</button>
@@ -606,7 +606,6 @@ export default function Calendar({ setScreen }) {
 
       <FloatingMenu
         onPrimaryAction={goToToday}
-        onSearch={abrirSearch}
         onHistory={abrirHistory}
         onHome={() => setScreen("weekly")}
       />

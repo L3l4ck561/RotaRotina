@@ -241,7 +241,7 @@ export default function Weekly({ setScreen }) {
 
             <header className="week-header">
                 <button onClick={goPrevWeek}>◀</button>
-                <div className="week-title">
+                <div className="week-title" onClick={abrirSearch}>
                     {weekDays[0].day} <span className='month-title'>{months[weekDays[0].month - 1]} — </span>
                     {weekDays[6].day} <span className='month-title'>{months[weekDays[6].month - 1]}</span> {weekDays[0].year}
                 </div>
@@ -596,7 +596,6 @@ export default function Weekly({ setScreen }) {
 
             <FloatingMenu
                 onPrimaryAction={goThisWeek}
-                onSearch={abrirSearch}
                 onHistory={abrirHistory}
                 onHome={() => setScreen("calendar")}
             />
