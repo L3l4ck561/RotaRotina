@@ -186,6 +186,7 @@ export default function Calendar({ setScreen }) {
       id: novoId,
       texto: "Nova tarefa",
       color: "#00e1ff",
+      completed: false,
       date: {
         day: selectedDay,
         month: month + 1,
@@ -296,11 +297,9 @@ export default function Calendar({ setScreen }) {
               {tarefas
                 .filter(tarefa => tarefa.date.day === status && tarefa.date.month === month + 1 && tarefa.date.year === year)
                 .map(tarefa => (
-
                   <div
                     key={tarefa.id}
                     className="kanban-cartao"
-
                     draggable="true"
                     onDragStart={(e) => handleDragStart(e, tarefa.id)}
                     onDragEnd={handleDragEnd}
@@ -310,12 +309,13 @@ export default function Calendar({ setScreen }) {
                       color: getTextColor(tarefa.color),
                       textShadow: getTextColor(tarefa.color) === "#ffffff"
                         ? "0 0 4px rgba(0,0,0,0.6)"
-                        : "0 0 4px rgba(255,255,255,0.6)"
+                        : "0 0 4px rgba(255,255,255,0.6)",
+                      textDecoration: tarefa.completed ? 'line-through' : 'none',
+                      opacity: tarefa.completed ? 0.75 : 1
                     }}
                   >
                     {tarefa.texto}
                   </div>
-
                 ))}
             </div>
           </div>
@@ -339,15 +339,18 @@ export default function Calendar({ setScreen }) {
             .map(tarefa => (
               <div style={{ width: '100%', display: 'flex', alignItems: 'center', marginBottom: 10 }} key={tarefa.id}>
 
+                {/* Checkbox agora controla completed */}
                 <label className="container" style={{ flex: 0, width: '100%' }}>
                   <input
                     type="checkbox"
-                    checked={selectedTasks.includes(tarefa.id)}
+                    checked={tarefa.completed || false}
                     onChange={() => {
-                      setSelectedTasks((prev) =>
-                        prev.includes(tarefa.id)
-                          ? prev.filter((id) => id !== tarefa.id)
-                          : [...prev, tarefa.id]
+                      setTarefas((tarefasAtuais) =>
+                        tarefasAtuais.map((t) =>
+                          t.id === tarefa.id
+                            ? { ...t, completed: !t.completed }
+                            : t
+                        )
                       );
                     }}
                   />
@@ -377,54 +380,71 @@ export default function Calendar({ setScreen }) {
                       }}
                     />
                   ) : (
-                    <div onClick={() => setEditingTextId(tarefa.id)} style={{ width: '100%' }}>
+                    <div
+                      onClick={() => setEditingTextId(tarefa.id)}
+                      style={{
+                        width: '100%',
+                        textDecoration: tarefa.completed ? 'line-through' : 'none',
+                        opacity: tarefa.completed ? 0.7 : 1
+                      }}
+                    >
                       {tarefa.texto}
                     </div>
                   )}
                 </div>
+
                 <div style={{ margin: '0 2px' }} />
                 <input
                   type="color"
                   value={tarefa.color}
-                  autoFocus
                   className="color-picker"
                   onChange={(e) => {
                     const novaCor = e.target.value;
-
                     setTarefas((tarefasAtuais) =>
                       tarefasAtuais.map((t) =>
-                        t.id === tarefa.id
-                          ? { ...t, color: novaCor }
-                          : t
+                        t.id === tarefa.id ? { ...t, color: novaCor } : t
                       )
                     );
                   }}
                 />
-
               </div>
-
-
-
             ))}
 
         </DialogContent>
 
         <DialogActions>
           <div style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+            <Button
+              color="error"
+              onClick={() => {
+                // Apaga apenas as concluídas do dia atual
+                setTarefas((tarefasAtuais) =>
+                  tarefasAtuais.filter((tarefa) => {
+                    const isDoDia =
+                      tarefa.date.day === selectedDay &&
+                      tarefa.date.month === month + 1 &&
+                      tarefa.date.year === year;
 
-            <Button color="error" onClick={deletarSelecionadas}>
+                    return !(isDoDia && tarefa.completed);
+                  })
+                );
+              }}
+            >
               Deletar
             </Button>
 
+            {/* Switch agora marca/desmarca todas como concluídas */}
             <label className="switch">
               <input
                 type="checkbox"
                 checked={
-                  tarefas.filter(t =>
-                    t.date.day === selectedDay &&
-                    t.date.month === month + 1 &&
-                    t.date.year === year
-                  ).every(t => selectedTasks.includes(t.id))
+                  tarefas
+                    .filter(t =>
+                      t.date.day === selectedDay &&
+                      t.date.month === month + 1 &&
+                      t.date.year === year
+                    )
+                    .every(t => t.completed)
                 }
                 onChange={(e) => {
                   const tarefasDoDia = tarefas.filter(t =>
@@ -433,11 +453,12 @@ export default function Calendar({ setScreen }) {
                     t.date.year === year
                   );
 
-                  if (e.target.checked) {
-                    setSelectedTasks(tarefasDoDia.map(t => t.id));
-                  } else {
-                    setSelectedTasks([]);
-                  }
+                  setTarefas((prev) =>
+                    prev.map((t) => {
+                      const isDoDia = tarefasDoDia.some(td => td.id === t.id);
+                      return isDoDia ? { ...t, completed: e.target.checked } : t;
+                    })
+                  );
                 }}
               />
               <span className="slider"></span>
@@ -484,6 +505,18 @@ export default function Calendar({ setScreen }) {
                     />
                   </svg>
                 </div>
+
+                <input
+                  type="checkbox"
+                  checked={tarefa.completed || false}
+                  onChange={() => {
+                    setTarefas(prev =>
+                      prev.map(t =>
+                        t.id === tarefa.id ? { ...t, completed: !t.completed } : t
+                      )
+                    );
+                  }}
+                />
 
                 <input
                   type="text"
